@@ -135,6 +135,27 @@ public class JavaTestController {
     }
 
     // Given minimum and maximum grade, return how many UCs have grades in those limits
+    @GetMapping(path = "/grades/{minGrade}/{maxGrade}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public int getQtyUCs(@PathVariable("minGrade") double minGrade, @PathVariable("maxGrade") double maxGrade){
+        logger.info("Get quantity of UCs in limits");
+        int cont = 0;
+        for (double grade: GRADES) {
+            if (grade >= minGrade && grade <= maxGrade){
+                cont++;
+            }
+        }
+        return cont;
+    }
 
     // Return a string with a text with all UC names and grades
+    @GetMapping(path = "/ucAndGrades", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getUcAndGrades(){
+        logger.info("Get UCs and Grades");
+        String msg = new String();
+        for (int i = 0; i < UCS.length; i++){
+            msg += String.format("UC: %s\t----- Grade: %.1f\n", UCS[i], GRADES[i]);
+        }
+
+        return msg;
+    }
 }
