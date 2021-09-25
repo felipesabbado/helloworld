@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,4 +46,38 @@ public class JavaTestController {
         return msg;
     }
 
+    // Check for access to IADE
+    @GetMapping(path = "/access/{student}/{covid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean getGreeting(@PathVariable("student") boolean isStudent, 
+    @PathVariable("covid") boolean hasCovid){
+        logger.info("Get greeting");
+
+        return isStudent && !hasCovid;
+    }
+
+    // Check if student should be in IADE
+    // Class type can be “digital”, “presential” or “none”
+    @GetMapping(path = "/required/{student}/{temperature}/{classType}", 
+                produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean getRequired(@PathVariable("student") boolean isStudent, 
+                @PathVariable("temperature") double hasCovid, 
+                @PathVariable("classType") String type){
+        logger.info("Ger required");
+
+        return isStudent && type.equals("presential") && (hasCovid > 34.5 && hasCovid <37.5);
+    }
+
+    /* Check if the building needs to be evacuated
+    Returns true if there is a fire or the numberOfCovids is greater them 5 
+    or there is a powerShutdown and the comeBackTime is greater than 15 minutes. */
+    @GetMapping(path = "/evacuation/{fire}/{numberOfCovids}/{powerShutdown}/{comeBackTime}/", 
+                produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean getEvacuation(@PathVariable("fire") boolean isFire, 
+                @PathVariable("numberOfCovids") int numCovid, 
+                @PathVariable("powerShutdown") boolean isPowerDown, 
+                @PathVariable("comeBackTime") int time){
+        logger.info("Get evacuation");
+
+        return isFire || (numCovid > 5) || (isPowerDown && time > 15);
+    }
 }
