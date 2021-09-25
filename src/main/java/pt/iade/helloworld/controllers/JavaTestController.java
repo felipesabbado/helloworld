@@ -70,7 +70,7 @@ public class JavaTestController {
     /* Check if the building needs to be evacuated
     Returns true if there is a fire or the numberOfCovids is greater them 5 
     or there is a powerShutdown and the comeBackTime is greater than 15 minutes. */
-    @GetMapping(path = "/evacuation/{fire}/{numberOfCovids}/{powerShutdown}/{comeBackTime}/", 
+    @GetMapping(path = "/evacuation/{fire}/{numberOfCovids}/{powerShutdown}/{comeBackTime}", 
                 produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean getEvacuation(@PathVariable("fire") boolean isFire, 
                 @PathVariable("numberOfCovids") int numCovid, 
