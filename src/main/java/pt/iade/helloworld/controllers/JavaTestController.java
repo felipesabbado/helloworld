@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class JavaTestController {
     private Logger logger = LoggerFactory.getLogger(JavaTestController.class);
 
+    // Boolean operations
     @GetMapping(path = "/author", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getAuthor() {
         logger.info("Get author");
@@ -80,4 +81,60 @@ public class JavaTestController {
 
         return isFire || (numCovid > 5) || (isPowerDown && time > 15);
     }
+
+    // Arrays, conditionals and loops
+    private final double GRADES[] = {16.5, 18, 14.5, 19, 15.5, 17.5};
+    private final String UCS[] = {"BD", "CC", "MD", "POO", "DM", "PDM"};
+
+    // Calculate and return the average
+    @GetMapping(path = "/average", produces = MediaType.APPLICATION_JSON_VALUE)
+    public double getAverage(){
+        logger.info("Get average");
+        double sum = 0;
+        for (double grade: GRADES) {
+            sum += grade;
+        }
+        double average = sum/GRADES.length;
+
+        return average;
+    }
+
+    // Return the maximum grade
+    @GetMapping(path = "/maximumGrade", produces = MediaType.APPLICATION_JSON_VALUE)
+    public double getMaximumGrade(){
+        logger.info("Get maximum grade");
+        double maximum = 0;
+        for (double grade: GRADES) {
+            if (grade > maximum){
+                maximum = grade;
+            }
+        }
+
+        return maximum;
+    }
+
+    // Given the name of the UC return the grade
+    @GetMapping(path = "/grade/{ucName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getGrade(@PathVariable("ucName") String ucName){
+        logger.info("Get grade");
+        int index = -1;
+        String msg = null;
+        for (int i = 0; i < UCS.length; i++) {
+            if (ucName.equals(UCS[i])){
+                index = i;
+            }
+
+        if (index == -1){
+            msg = "You don't have this UC";
+        } else {
+            msg = String.format("Your grade for %s is %.1f.", ucName, GRADES[index]);
+            }
+        }
+
+        return msg;
+    }
+
+    // Given minimum and maximum grade, return how many UCs have grades in those limits
+
+    // Return a string with a text with all UC names and grades
 }
